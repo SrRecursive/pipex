@@ -6,7 +6,7 @@
 /*   By: ribana-b <ribana-b@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 14:49:56 by ribana-b          #+#    #+#             */
-/*   Updated: 2023/10/22 15:44:39 by ribana-b         ###   ########.fr       */
+/*   Updated: 2023/10/23 09:23:56 by ribana-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	pid_t	pid;
 	int		fd[2];
+	int		status;
 
 	if (argc != 5)
 	{
@@ -84,5 +85,6 @@ int	main(int argc, char **argv, char **envp)
 	if (pid == 0)
 		child(argv, envp, fd);
 	parent(argv, envp, fd);
+	waitpid(pid, NULL, 0);
 	return (0);
 }
