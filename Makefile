@@ -51,7 +51,9 @@ UTILS_DIR = utils/
 
 # <-- Files --> #
 SRC_FILES = pipex.c
-UTILS_FILES = pipex_utils.c
+UTILS_FILES = error.c \
+				execute.c \
+				process.c
 
 # <-- Directories + Files --> #
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))

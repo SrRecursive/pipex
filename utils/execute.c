@@ -1,29 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ribana-b <ribana-b@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: ribana-b <ribana-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/22 15:33:32 by ribana-b          #+#    #+#             */
-/*   Updated: 2023/10/23 09:14:33 by ribana-b         ###   ########.fr       */
+/*   Created: 2023/10/27 07:57:30 by ribana-b          #+#    #+#             */
+/*   Updated: 2023/10/27 07:57:57 by ribana-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
-
-void	error_message(const char *str)
-{
-	if (ft_strncmp(str, "pipe", 4) == 0)
-		perror("pipe");
-	else if (ft_strncmp(str, "fork", 4) == 0)
-		perror("fork");
-	else if (ft_strncmp(str, "open", 4) == 0)
-		perror("open");
-	else if (ft_strncmp(str, "execve", 6) == 0)
-		perror("execve");
-	exit(EXIT_FAILURE);
-}
 
 static char	*ft_strjoin_pipex(char *str, char *str2)
 {
@@ -45,7 +32,7 @@ static char	*ft_strjoin_pipex(char *str, char *str2)
 	return (newstr);
 }
 
-static void	free_path(char **path)
+static void	ft_free_path(char **path)
 {
 	int	i;
 
@@ -55,15 +42,17 @@ static void	free_path(char **path)
 	return ;
 }
 
-char	*find_path(char *command, char **envp)
+char	*ft_find_path(char *command, char **envp)
 {
 	int		i;
 	char	**path;
 	char	*path_command;
 
 	i = 0;
-	while (ft_strncmp(envp[i], "PATH", 4) != 0)
+	while (ft_strncmp(envp[i], "PATH", 4) != 0 && envp[i] != NULL)
 		i++;
+	if (envp == NULL)
+		exit(EXIT_FAILURE);
 	path = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (path[i])
@@ -72,12 +61,35 @@ char	*find_path(char *command, char **envp)
 		path_command = ft_strjoin_pipex(path_command, command);
 		if (access(path_command, F_OK) == 0)
 		{
-			free_path(path);
+			ft_free_path(path);
 			return (path_command);
 		}
 		free(path_command);
 		i++;
 	}
-	free_path(path);
+	ft_free_path(path);
 	return (NULL);
+}
+
+void	ft_execute_command(char *argv, char **envp)
+{
+	char	**command;
+	char	*path;
+	int		i;
+
+	i = 0;
+	command = ft_split(argv, ' ');
+	path = ft_find_path(command[0], envp);
+	if (!path)
+	{
+		while (command[i])
+			free(command[i++]);
+		free(command);
+		ft_error_message("path");
+	}
+	if (execve(path, command, envp) == -1)
+	{
+		ft_error_message("execve");
+	}
+	return ;
 }
