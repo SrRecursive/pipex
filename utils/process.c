@@ -60,7 +60,7 @@ int	ft_parent_process(char **argv, char **envp, int *fd, int argc)
 		ft_last_child_process(argv, envp, fd, argc);
 	else
 	{
-		waitpid(pid, &status, WNOHANG);
+		waitpid(pid, &status, 0);
 		close(fd[0]);
 	}
 	return (status);

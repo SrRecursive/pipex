@@ -14,17 +14,6 @@
 
 void	ft_error_message(const char *str)
 {
-	if (ft_strncmp(str, "pipe", 4) == 0)
-		perror("pipe");
-	else if (ft_strncmp(str, "fork", 4) == 0)
-		perror("fork");
-	else if (ft_strncmp(str, "open", 4) == 0)
-		perror("open");
-	else if (ft_strncmp(str, "execve", 6) == 0)
-		perror("execve");
-	else if (ft_strncmp(str, "dup", 3) == 0)
-		perror("dup");
-	else if (ft_strncmp(str, "dup2", 4) == 0)
-		perror("dup2");
+	perror(str);
 	exit(EXIT_FAILURE);
 }
