@@ -12,25 +12,34 @@
 
 #include "../include/pipex.h"
 
-int	main(int argc, char **argv, char **envp)
+int	pipex(int argc, char **argv, char **envp)
 {
-	int		fd[2];
 	int		status;
+	int		pipefd[2];
 	pid_t	pid;
 
-	if (argc != 5)
-		return (1);
-	if (pipe(fd) < 0)
-		ft_error_message("Pipe");
+	status = 0;
+	if (pipe(pipefd) < 0)
+		ft_error_message("pipe");
 	pid = fork();
 	if (pid < 0)
 		ft_error_message("fork");
 	else if (pid == 0)
-		ft_first_child_process(argv, envp, fd);
+		ft_first_child_process(argv, envp, pipefd);
 	else
 	{
-		waitpid(pid, &status, WNOHANG);
-		ft_parent_process(argv, envp, fd, argc);
+		waitpid(pid, &status, 0);
+		status = ft_parent_process(argv, envp, pipefd, argc);
 	}
-	return (0);
+	return (WEXITSTATUS(status));
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	int	status;
+
+	if (argc != 5)
+		return (0);
+	status = pipex(argc, argv, envp);
+	return (status);
 }
