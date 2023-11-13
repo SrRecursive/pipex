@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path.c                                             :+:      :+:    :+:   */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ribana-b <ribana-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ribana-b <ribana-b@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 07:57:30 by ribana-b          #+#    #+#             */
-/*   Updated: 2023/10/27 07:57:57 by ribana-b         ###   ########.fr       */
+/*   Updated: 2023/11/13 09:09:06 by ribana-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,12 @@ static void	ft_free_path(char **path)
 
 	i = 0;
 	while (path[i])
-		free(path[i++]);
+	{
+		free(path[i]);
+		path[i++] = NULL;
+	}
+	free(path);
+	path = NULL;
 	return ;
 }
 
@@ -51,8 +56,8 @@ char	*ft_find_path(char *command, char **envp)
 	i = 0;
 	while (ft_strncmp(envp[i], "PATH", 4) != 0 && envp[i] != NULL)
 		i++;
-	if (envp == NULL)
-		exit(EXIT_FAILURE);
+	if (envp[i] == NULL)
+		return (NULL);
 	path = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (path[i])
@@ -79,17 +84,23 @@ void	ft_execute_command(char *argv, char **envp)
 
 	i = 0;
 	command = ft_split(argv, ' ');
+	if (ft_strncmp(command[0], "/bin/", 5) == 0
+		|| ft_strncmp(command[0], "/usr/", 5) == 0)
+		if (execve(command[0], command, envp) == -1)
+			ft_error_message("execve");
 	path = ft_find_path(command[0], envp);
 	if (!path)
 	{
 		while (command[i])
-			free(command[i++]);
+		{
+			free(command[i]);
+			command[i++] = NULL;
+		}
 		free(command);
+		command = NULL;
 		ft_error_message("path");
 	}
 	if (execve(path, command, envp) == -1)
-	{
 		ft_error_message("execve");
-	}
 	return ;
 }
