@@ -68,30 +68,30 @@ OBJ_UTILS = $(UTILS:.c=.o)
 # <-- Main Target --> #
 all: $(NAME)
 
-# <-- Compile Library --> #
-
 # <--Library Creation-->#
 $(NAME): $(OBJ_SRC) $(OBJ_UTILS)
-	make -C libft
-	@echo "$(B_GREEN)$(T_YELLOW)$(BOLD)Objects created successfully$(RESET)"
-	$(CC) $(CFLAGS) $(OBJ_SRC) $(OBJ_UTILS) -Llibft -lft -o $(NAME)
-	@echo "$(B_GREEN)$(T_YELLOW)$(BOLD)$(NAME) created successfully$(RESET)"
+	@make -s -C libft
+	@echo "✅ 🦔 $(T_YELLOW)$(BOLD)Objects $(RESET)$(T_GREEN)created successfully$(RESET)"
+	@$(CC) $(CFLAGS) $(OBJ_SRC) $(OBJ_UTILS) -Llibft -lft -o $(NAME)
+	@echo "✅ 🦔 $(T_MAGENTA)$(BOLD)$(NAME) $(RESET)$(T_GREEN)created successfully$(RESET)"
 
 # <-- Objects Creation --> #
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@echo "🧩 🦔 $(T_WHITE)$(BOLD)Compiling $<...$(RESET)"
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "🔨 🦔 $(T_BLUE)$(BOLD)$@ $(RESET)$(T_GREEN)created!$(RESET)"
 
 # <-- Objects Destruction --> #
 clean:
-	@make clean -C libft
-	$(RM) $(OBJ_SRC) $(OBJ_UTILS)
-	@echo "$(B_RED)$(T_YELLOW)$(BOLD)Source Object destroyed successfully$(RESET)"
+	@make clean -s -C libft
+	@$(RM) $(OBJ_SRC) $(OBJ_UTILS)
+	@echo "🗑️  🦔 $(T_YELLOW)$(BOLD)Objects $(RESET)$(T_RED)destroyed successfully$(RESET)"
 
-# <- Clean Execution + Library Destruction -> #
+# <- Clean Execution + $(NAME) Destruction -> #
 fclean: clean
-	@make fclean -C libft
-	$(RM) $(NAME)
-	@echo "$(B_RED)$(T_YELLOW)$(BOLD)Library destroyed successfully$(RESET)"
+	@make fclean -s -C libft
+	@$(RM) $(NAME)
+	@echo "🗑️  🦔 $(T_MAGENTA)$(BOLD)$(NAME) $(RESET)$(T_RED)destroyed successfully$(RESET)"
 
 # <- Fclean Execution + All Execution -> #
 re: fclean all
