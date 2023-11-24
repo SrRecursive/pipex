@@ -6,11 +6,25 @@
 /*   By: ribana-b <ribana-b@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 14:49:56 by ribana-b          #+#    #+#             */
-/*   Updated: 2023/11/13 08:13:14 by ribana-b         ###   ########.fr       */
+/*   Updated: 2023/11/24 10:00:54 by ribana-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
+
+static int	ft_argv_parser(int argc, char **argv)
+{
+	int	counter;
+
+	counter = 2;
+	while (argv[argc - counter] && (argc - counter) > 1)
+	{
+		if (!argv[argc - counter][0])
+			return (1);
+		counter++;
+	}
+	return (0);
+}
 
 int	pipex(int argc, char **argv, char **envp)
 {
@@ -18,7 +32,8 @@ int	pipex(int argc, char **argv, char **envp)
 	int		pipefd[2];
 	pid_t	pid;
 
-	status = 0;
+	if (ft_argv_parser(argc, argv) != 0)
+		ft_error_message("Empty command");
 	if (pipe(pipefd) < 0)
 		ft_error_message("pipe");
 	pid = fork();
@@ -31,7 +46,7 @@ int	pipex(int argc, char **argv, char **envp)
 		waitpid(pid, &status, WNOHANG);
 		status = ft_parent_process(argv, envp, pipefd, argc);
 	}
-	return (WEXITSTATUS(status));
+	return (status);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -40,8 +55,6 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 5)
 		return (1);
-	if (!argv[2][0] || !argv[3][0])
-		ft_error_message("command");
 	status = pipex(argc, argv, envp);
 	return (status);
 }
