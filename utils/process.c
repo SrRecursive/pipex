@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ribana-b <ribana-b@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: ribana-b <ribana-b@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 08:00:48 by ribana-b          #+#    #+#             */
-/*   Updated: 2023/10/27 08:00:50 by ribana-b         ###   ########.fr       */
+/*   Updated: 2023/11/24 09:57:29 by ribana-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ int	ft_parent_process(char **argv, char **envp, int *fd, int argc)
 	close(fd[1]);
 	if (pid < 0)
 		ft_error_message("fork");
-	else if (pid == 0)
+	if (pid == 0)
 		ft_last_child_process(argv, envp, fd, argc);
 	else
 	{
 		waitpid(pid, &status, 0);
 		close(fd[0]);
 	}
-	return (status);
+	return (WEXITSTATUS(status));
 }
