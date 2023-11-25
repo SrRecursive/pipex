@@ -6,7 +6,7 @@
 /*   By: ribana-b <ribana-b@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 14:49:56 by ribana-b          #+#    #+#             */
-/*   Updated: 2023/11/25 16:19:18 by ribana-b         ###   ########.fr       */
+/*   Updated: 2023/11/26 00:06:15 by ribana-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 5)
 		return (1);
-	for (int i = 0; argv[i]; i++)
-		printf("%s\n", argv[i]);
 	status = pipex(argc, argv, envp);
 	return (status);
 }
