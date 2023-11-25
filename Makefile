@@ -53,6 +53,7 @@ UTILS_DIR = utils/
 SRC_FILES = pipex.c
 UTILS_FILES = error.c \
 				execute.c \
+				parser.c \
 				process.c
 
 # <-- Directories + Files --> #
