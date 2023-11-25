@@ -6,7 +6,7 @@ root=$(pwd)
 # Finished testing
 
 if [ $# -eq 1 ]; then
-	rm -rf $root/txt $root/test
+	rm -rf $root/txt $root/test $root/*dSYM
 	printf "🗑️  🦔 \033[1;33mDirectories \033[0;31mremoved!\033[0m\n"
 	exit 0
 fi
@@ -61,6 +61,7 @@ printf "Empty both commands" > $root/txt/text9.txt
 # Go to pipex directory
 if [ ! $(echo "$root" | grep "pipex") ]; then
 	cd $root/pipex
+else
 # Save git command path 
 	git=$(which git)
 	$git submodule update --init --recursive
@@ -98,8 +99,7 @@ diff $root/test/my_test1_output.txt $root/test/og_test1_output.txt > /dev/null
 if [ $? -eq 0 ]; then
 	printf "\033[32mOK\033[0m"
 else
-	printf "\033[31mKO\033[0m\n"
-	exit 1
+	printf "\033[31mKO\033[0m"
 fi
 
 if [ $valgrind_installed -eq 1 ]; then
@@ -108,7 +108,6 @@ if [ $valgrind_installed -eq 1 ]; then
 		printf " \033[32mMOK\033[0m\n"
 	else
 		printf " \033[31mMKO\033[0m\n"
-		exit 1
 	fi
 else
 	printf "\n"
@@ -128,8 +127,7 @@ diff $root/test/my_test2_output.txt $root/test/og_test2_output.txt
 if [ $? -eq 0 ]; then
 	printf "\033[32mOK\033[0m"
 else
-	printf "\033[31mKO\033[0m\n"
-	exit 1
+	printf "\033[31mKO\033[0m"
 fi
 
 if [ $valgrind_installed -eq 1 ]; then
@@ -138,7 +136,6 @@ if [ $valgrind_installed -eq 1 ]; then
 		printf " \033[32mMOK\033[0m\n"
 	else
 		printf " \033[31mMKO\033[0m\n"
-		exit 1
 	fi
 else
 	printf "\n"
@@ -158,8 +155,7 @@ diff $root/test/my_test${test_number}_output.txt $root/test/og_test${test_number
 if [ $? -eq 0 ]; then
 	printf "\033[32mOK\033[0m"
 else
-	printf "\033[31mKO\033[0m\n"
-	exit 1
+	printf "\033[31mKO\033[0m"
 fi
 
 if [ $valgrind_installed -eq 1 ]; then
@@ -168,7 +164,6 @@ if [ $valgrind_installed -eq 1 ]; then
 		printf " \033[32mMOK\033[0m\n"
 	else
 		printf " \033[31mMKO\033[0m\n"
-		exit 1
 	fi
 else
 	printf "\n"
@@ -188,8 +183,7 @@ diff $root/test/my_test${test_number}_output.txt $root/test/og_test${test_number
 if [ $? -eq 0 ]; then
 	printf "\033[32mOK\033[0m"
 else
-	printf "\033[31mKO\033[0m\n"
-	exit 1
+	printf "\033[31mKO\033[0m"
 fi
 
 if [ $valgrind_installed -eq 1 ]; then
@@ -198,7 +192,6 @@ if [ $valgrind_installed -eq 1 ]; then
 		printf " \033[32mMOK\033[0m\n"
 	else
 		printf " \033[31mMKO\033[0m\n"
-		exit 1
 	fi
 else
 	printf "\n"
@@ -218,8 +211,7 @@ diff $root/test/my_test${test_number}_output.txt $root/test/og_test${test_number
 if [ $? -eq 0 ]; then
 	printf "\033[32mOK\033[0m"
 else
-	printf "\033[31mKO\033[0m\n"
-	exit 1
+	printf "\033[31mKO\033[0m"
 fi
 
 if [ $valgrind_installed -eq 1 ]; then
@@ -228,7 +220,6 @@ if [ $valgrind_installed -eq 1 ]; then
 		printf " \033[32mMOK\033[0m\n"
 	else
 		printf " \033[31mMKO\033[0m\n"
-		exit 1
 	fi
 else
 	printf "\n"
@@ -248,8 +239,7 @@ diff $root/test/my_test${test_number}_output.txt $root/test/og_test${test_number
 if [ $? -eq 0 ]; then
 	printf "\033[32mOK\033[0m"
 else
-	printf "\033[31mKO\033[0m\n"
-	exit 1
+	printf "\033[31mKO\033[0m"
 fi
 
 if [ $valgrind_installed -eq 1 ]; then
@@ -258,7 +248,6 @@ if [ $valgrind_installed -eq 1 ]; then
 		printf " \033[32mMOK\033[0m\n"
 	else
 		printf " \033[31mMKO\033[0m\n"
-		exit 1
 	fi
 else
 	printf "\n"

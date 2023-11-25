@@ -70,9 +70,9 @@ all: $(NAME)
 
 # <--Library Creation-->#
 $(NAME): $(OBJ_SRC) $(OBJ_UTILS)
-	@make -s -C libft
+	@make -s -C BFL
 	@echo "✅ 🦔 $(T_YELLOW)$(BOLD)Objects $(RESET)$(T_GREEN)created successfully$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJ_SRC) $(OBJ_UTILS) -Llibft -lft -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ_SRC) $(OBJ_UTILS) BFL/bfl.a -L./BFL/include -o $(NAME)
 	@echo "✅ 🦔 $(T_MAGENTA)$(BOLD)$(NAME) $(RESET)$(T_GREEN)created successfully$(RESET)"
 
 # <-- Objects Creation --> #
@@ -83,13 +83,13 @@ $(NAME): $(OBJ_SRC) $(OBJ_UTILS)
 
 # <-- Objects Destruction --> #
 clean:
-	@make clean -s -C libft
+	@make clean -s -C BFL
 	@$(RM) $(OBJ_SRC) $(OBJ_UTILS)
 	@echo "🗑️  🦔 $(T_YELLOW)$(BOLD)Objects $(RESET)$(T_RED)destroyed successfully$(RESET)"
 
 # <- Clean Execution + $(NAME) Destruction -> #
 fclean: clean
-	@make fclean -s -C libft
+	@make fclean -s -C BFL
 	@$(RM) $(NAME)
 	@echo "🗑️  🦔 $(T_MAGENTA)$(BOLD)$(NAME) $(RESET)$(T_RED)destroyed successfully$(RESET)"
 

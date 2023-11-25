@@ -6,7 +6,7 @@
 /*   By: ribana-b <ribana-b@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 12:42:31 by ribana-b          #+#    #+#             */
-/*   Updated: 2023/11/11 23:05:11 by ribana-b         ###   ########.fr       */
+/*   Updated: 2023/11/25 01:46:51 by ribana-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <stdio.h>
-# include "../libft/libft.h"
+# include "../BFL/include/bfl.h"
 
 /* <--Functions Section--> */
 

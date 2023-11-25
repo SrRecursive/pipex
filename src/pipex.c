@@ -6,7 +6,7 @@
 /*   By: ribana-b <ribana-b@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 14:49:56 by ribana-b          #+#    #+#             */
-/*   Updated: 2023/11/24 10:00:54 by ribana-b         ###   ########.fr       */
+/*   Updated: 2023/11/25 00:56:26 by ribana-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	pipex(int argc, char **argv, char **envp)
 	int		pipefd[2];
 	pid_t	pid;
 
+	status = 0;
 	if (ft_argv_parser(argc, argv) != 0)
 		ft_error_message("Empty command");
 	if (pipe(pipefd) < 0)
