@@ -6,7 +6,7 @@
 /*   By: ribana-b <ribana-b@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 08:00:48 by ribana-b          #+#    #+#             */
-/*   Updated: 2023/11/24 09:57:29 by ribana-b         ###   ########.fr       */
+/*   Updated: 2023/11/25 23:37:48 by ribana-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	ft_first_child_process(char **argv, char **envp, int *fd)
 	if (dup2(fd[1], STDOUT_FILENO) < 0)
 		ft_error_message("dup2");
 	close(fd[1]);
+	if (ft_argv_parser(argv[2]) == 0)
+		ft_error_message("path");
 	ft_execute_command(argv[2], envp);
 	return ;
 }
@@ -43,6 +45,8 @@ void	ft_last_child_process(char **argv, char **envp, int *fd, int argc)
 	if (dup2(outfilefd, STDOUT_FILENO) < 0)
 		ft_error_message("dup2");
 	close(outfilefd);
+	if (ft_argv_parser(argv[argc - 2]) == 0)
+		ft_error_message("path");
 	ft_execute_command(argv[argc - 2], envp);
 }
 

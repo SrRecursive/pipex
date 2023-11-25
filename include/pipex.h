@@ -6,7 +6,7 @@
 /*   By: ribana-b <ribana-b@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 12:42:31 by ribana-b          #+#    #+#             */
-/*   Updated: 2023/11/25 01:46:51 by ribana-b         ###   ########.fr       */
+/*   Updated: 2023/11/25 23:41:04 by ribana-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/wait.h>
-# include <sys/types.h>
 # include <stdio.h>
 # include "../BFL/include/bfl.h"
 
@@ -32,5 +31,6 @@ void	ft_first_child_process(char **argv, char **envp, int *fd);
 void	ft_last_child_process(char **argv, char **envp, int *fd, int argc);
 int		ft_parent_process(char **argv, char **envp, int *fd, int argc);
 char	*ft_find_path(char *command, char **envp);
+int		ft_argv_parser(char *argv);
 
 #endif
