@@ -50,13 +50,13 @@ printf "Invalid first command\n" > $root/txt/text5.txt
 
 printf "Invalid second command\n" > $root/txt/text6.txt
 
-printf "Invalid both command\n" > $root/txt/text6.txt
+printf "Invalid both command\n" > $root/txt/text7.txt
 
-printf "Empty first command\n" > $root/txt/text7.txt
+printf "Empty first command\n" > $root/txt/text8.txt
 
-printf "Empty second command\n" > $root/txt/text8.txt
+printf "Empty second command\n" > $root/txt/text9.txt
 
-printf "Empty both commands" > $root/txt/text9.txt
+printf "Empty both commands" > $root/txt/text10.txt
 
 # Go to pipex directory
 if [ ! $(echo "$root" | grep "pipex") ]; then
@@ -70,6 +70,16 @@ fi
 # Save make command path
 make=$(which make)
 $make -s
+
+# Save norminette
+norminette=$(which norminette)
+$norminette | grep "Error!" > /dev/null
+if [ $? -eq 0 ]; then
+	printf "\033[33mnorminette: \033[31mKO\033[0m\n"
+else
+	printf "\033[33mnorminette: \033[32mOK\033[0m\n"
+fi
+$norminette | grep "Error!"
 
 # Check if valgrind exists
 valgrind=$(which valgrind)
@@ -103,7 +113,7 @@ else
 fi
 
 if [ $valgrind_installed -eq 1 ]; then
-	$valgrind ./pipex $root/txt/text1.txt "cat -e" echo /dev/null 2>&1 | grep "LEAK SUMMARY" > /dev/null
+	$valgrind ./pipex $root/txt/text1.txt "cat -e" echo /dev/null 2>&1 | grep "lost" | awk '{ printf $4 }' | grep -E '[123456789]' > /dev/null
 	if [ $? -eq 1 ]; then
 		printf " \033[32mMOK\033[0m\n"
 	else
@@ -131,7 +141,7 @@ else
 fi
 
 if [ $valgrind_installed -eq 1 ]; then
-	$valgrind ./pipex $root/txt/text2.txt "cat -e" echo /dev/null 2>&1 | grep "LEAK SUMMARY" > /dev/null
+	$valgrind ./pipex $root/txt/text2.txt "cat -e" echo /dev/null 2>&1 | grep "lost" | awk '{ printf $4 }' | grep -E '[123456789]' > /dev/null
 	if [ $? -eq 1 ]; then
 		printf " \033[32mMOK\033[0m\n"
 	else
@@ -159,7 +169,7 @@ else
 fi
 
 if [ $valgrind_installed -eq 1 ]; then
-	$valgrind ./pipex $root/txt/text${test_number}.txt "cat -e" "wc -c" /dev/null 2>&1 | grep "LEAK SUMMARY" > /dev/null
+	$valgrind ./pipex $root/txt/text${test_number}.txt "cat -e" "wc -c" /dev/null 2>&1 | grep "lost" | awk '{ printf $4 }' | grep -E '[123456789]' > /dev/null
 	if [ $? -eq 1 ]; then
 		printf " \033[32mMOK\033[0m\n"
 	else
@@ -187,7 +197,7 @@ else
 fi
 
 if [ $valgrind_installed -eq 1 ]; then
-	$valgrind ./pipex $root/txt/text${test_number}.txt "/bin/cat -e" "wc -c" /dev/null 2>&1 | grep "LEAK SUMMARY" > /dev/null
+	$valgrind ./pipex $root/txt/text${test_number}.txt "/bin/cat -e" "wc -c" /dev/null 2>&1 | grep "lost" | awk '{ printf $4 }' | grep -E '[123456789]' > /dev/null
 	if [ $? -eq 1 ]; then
 		printf " \033[32mMOK\033[0m\n"
 	else
@@ -215,7 +225,7 @@ else
 fi
 
 if [ $valgrind_installed -eq 1 ]; then
-	$valgrind ./pipex $root/txt/text${test_number}.txt invent ls /dev/null 2>&1 | grep "LEAK SUMMARY" > /dev/null
+	$valgrind ./pipex $root/txt/text${test_number}.txt invent ls /dev/null 2>&1 | grep "lost" | awk '{ printf $4 }' | grep -E '[123456789]' > /dev/null
 	if [ $? -eq 1 ]; then
 		printf " \033[32mMOK\033[0m\n"
 	else
@@ -243,7 +253,124 @@ else
 fi
 
 if [ $valgrind_installed -eq 1 ]; then
-	$valgrind ./pipex $root/txt/text${test_number}.txt ls invent /dev/null 2>&1 | grep "LEAK SUMMARY" > /dev/null
+	$valgrind ./pipex $root/txt/text${test_number}.txt ls invent /dev/null 2>&1 | grep "lost" | awk '{ printf $4 }' | grep -E '[123456789]' > /dev/null
+
+	if [ $? -eq 1 ]; then
+		printf " \033[32mMOK\033[0m\n"
+	else
+		printf " \033[31mMKO\033[0m\n"
+	fi
+else
+	printf "\n"
+fi
+
+# Test 7
+((test_number++))
+printf "\033[1;33mTest \033[31m$test_number\033[0m: "
+
+./pipex $root/txt/text${test_number}.txt invent invent $root/test/my_test${test_number}_output.txt
+echo $? >> $root/test/my_test${test_number}_output.txt
+
+invent < $root/txt/text${test_number}.txt | invent > $root/test/og_test${test_number}_output.txt
+echo $? >> $root/test/og_test${test_number}_output.txt
+
+diff $root/test/my_test${test_number}_output.txt $root/test/og_test${test_number}_output.txt
+if [ $? -eq 0 ]; then
+	printf "\033[32mOK\033[0m"
+else
+	printf "\033[31mKO\033[0m"
+fi
+
+if [ $valgrind_installed -eq 1 ]; then
+	$valgrind ./pipex $root/txt/text${test_number}.txt ls invent /dev/null 2>&1 | grep "lost" | awk '{ printf $4 }' | grep -E '[123456789]' > /dev/null
+
+	if [ $? -eq 1 ]; then
+		printf " \033[32mMOK\033[0m\n"
+	else
+		printf " \033[31mMKO\033[0m\n"
+	fi
+else
+	printf "\n"
+fi
+
+# Test 8
+((test_number++))
+printf "\033[1;33mTest \033[31m$test_number\033[0m: "
+
+./pipex $root/txt/text${test_number}.txt " " cat $root/test/my_test${test_number}_output.txt
+echo $? >> $root/test/my_test${test_number}_output.txt
+
+" " < $root/txt/text${test_number}.txt | cat > $root/test/og_test${test_number}_output.txt
+echo $? >> $root/test/og_test${test_number}_output.txt
+
+diff $root/test/my_test${test_number}_output.txt $root/test/og_test${test_number}_output.txt
+if [ $? -eq 0 ]; then
+	printf "\033[32mOK\033[0m"
+else
+	printf "\033[31mKO\033[0m"
+fi
+
+if [ $valgrind_installed -eq 1 ]; then
+	$valgrind ./pipex $root/txt/text${test_number}.txt ls invent /dev/null 2>&1 | grep "lost" | awk '{ printf $4 }' | grep -E '[123456789]' > /dev/null
+
+	if [ $? -eq 1 ]; then
+		printf " \033[32mMOK\033[0m\n"
+	else
+		printf " \033[31mMKO\033[0m\n"
+	fi
+else
+	printf "\n"
+fi
+
+# Test 9
+((test_number++))
+printf "\033[1;33mTest \033[31m$test_number\033[0m: "
+
+./pipex $root/txt/text${test_number}.txt cat " " $root/test/my_test${test_number}_output.txt
+echo $? >> $root/test/my_test${test_number}_output.txt
+
+cat < $root/txt/text${test_number}.txt | " " > $root/test/og_test${test_number}_output.txt
+echo $? >> $root/test/og_test${test_number}_output.txt
+
+diff $root/test/my_test${test_number}_output.txt $root/test/og_test${test_number}_output.txt
+if [ $? -eq 0 ]; then
+	printf "\033[32mOK\033[0m"
+else
+	printf "\033[31mKO\033[0m"
+fi
+
+if [ $valgrind_installed -eq 1 ]; then
+	$valgrind ./pipex $root/txt/text${test_number}.txt ls invent /dev/null 2>&1 | grep "lost" | awk '{ printf $4 }' | grep -E '[123456789]' > /dev/null
+
+	if [ $? -eq 1 ]; then
+		printf " \033[32mMOK\033[0m\n"
+	else
+		printf " \033[31mMKO\033[0m\n"
+	fi
+else
+	printf "\n"
+fi
+
+# Test 10
+((test_number++))
+printf "\033[1;33mTest \033[31m$test_number\033[0m: "
+
+./pipex $root/txt/text${test_number}.txt " " " " $root/test/my_test${test_number}_output.txt
+echo $? >> $root/test/my_test${test_number}_output.txt
+
+" " < $root/txt/text${test_number}.txt | " " > $root/test/og_test${test_number}_output.txt
+echo $? >> $root/test/og_test${test_number}_output.txt
+
+diff $root/test/my_test${test_number}_output.txt $root/test/og_test${test_number}_output.txt
+if [ $? -eq 0 ]; then
+	printf "\033[32mOK\033[0m"
+else
+	printf "\033[31mKO\033[0m"
+fi
+
+if [ $valgrind_installed -eq 1 ]; then
+	$valgrind ./pipex $root/txt/text${test_number}.txt ls invent /dev/null 2>&1 | grep "lost" | awk '{ printf $4 }' | grep -E '[123456789]' > /dev/null
+
 	if [ $? -eq 1 ]; then
 		printf " \033[32mMOK\033[0m\n"
 	else
