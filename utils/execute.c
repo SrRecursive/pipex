@@ -6,7 +6,7 @@
 /*   By: ribana-b <ribana-b@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 07:57:30 by ribana-b          #+#    #+#             */
-/*   Updated: 2023/11/13 09:09:06 by ribana-b         ###   ########.fr       */
+/*   Updated: 2023/11/26 12:10:52 by ribana-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,15 @@ void	ft_execute_command(char *argv, char **envp)
 	if (execve(path, command, envp) == -1)
 		ft_error_message("execve");
 	return ;
+}
+
+void	ft_execute_space(void)
+{
+	char	**cmdspace;
+	char	*space;
+
+	cmdspace = ft_split(" ", '\t');
+	space = ft_strdup(" ");
+	if (execve(space, cmdspace, NULL) == -1)
+		ft_error_message("execve");
 }

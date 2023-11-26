@@ -6,7 +6,7 @@
 /*   By: ribana-b <ribana-b@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 12:42:31 by ribana-b          #+#    #+#             */
-/*   Updated: 2023/11/25 23:41:04 by ribana-b         ###   ########.fr       */
+/*   Updated: 2023/11/26 12:09:04 by ribana-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ void	ft_last_child_process(char **argv, char **envp, int *fd, int argc);
 int		ft_parent_process(char **argv, char **envp, int *fd, int argc);
 char	*ft_find_path(char *command, char **envp);
 int		ft_argv_parser(char *argv);
+void	ft_execute_space(void);
 
 #endif
